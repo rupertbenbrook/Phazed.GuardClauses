@@ -19,7 +19,7 @@ namespace Phazed.GuardClauses.UnitTests
             Assert.That(
                 () => Guard.AgainstNull(null, "param"),
                 Throws.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("param")
-                    .And.Property("Message").StartsWith("Value cannot be null."));
+                    .And.Message.StartsWith("Value cannot be null."));
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace Phazed.GuardClauses.UnitTests
             Assert.That(
                 () => Guard.AgainstEmpty("", "param"),
                 Throws.TypeOf<ArgumentException>().With.Property("ParamName").EqualTo("param")
-                    .And.Property("Message").StartsWith("Value cannot be empty."));
+                    .And.Message.StartsWith("Value cannot be empty."));
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace Phazed.GuardClauses.UnitTests
             Assert.That(
                 () => Guard.AgainstEmpty((string)null, "param"),
                 Throws.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("param")
-                    .And.Property("Message").StartsWith("Value cannot be null."));
+                    .And.Message.StartsWith("Value cannot be null."));
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace Phazed.GuardClauses.UnitTests
             Assert.That(
                 () => Guard.AgainstEmpty(new List<string>(), "param"),
                 Throws.TypeOf<ArgumentException>().With.Property("ParamName").EqualTo("param")
-                    .And.Property("Message").StartsWith("Value cannot be empty."));
+                    .And.Message.StartsWith("Value cannot be empty."));
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace Phazed.GuardClauses.UnitTests
             Assert.That(
                 () => Guard.AgainstEmpty((List<string>)null, "param"),
                 Throws.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("param")
-                    .And.Property("Message").StartsWith("Value cannot be null."));
+                    .And.Message.StartsWith("Value cannot be null."));
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace Phazed.GuardClauses.UnitTests
             Assert.That(
                 () => Guard.AgainstOutOfRange(value, min, max, "param"),
                 Throws.TypeOf<ArgumentOutOfRangeException>().With.Property("ParamName").EqualTo("param")
-                    .And.Property("Message").StartsWith("Value must be between " + min + " and " + max + "."));
+                    .And.Message.StartsWith("Value must be between " + min + " and " + max + "."));
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace Phazed.GuardClauses.UnitTests
             Assert.That(
                 () => Guard.AgainstOutOfRange(null, "", "", "param"),
                 Throws.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("param")
-                    .And.Property("Message").StartsWith("Value cannot be null."));
+                    .And.Message.StartsWith("Value cannot be null."));
         }
 
         [Test]
@@ -138,7 +138,7 @@ namespace Phazed.GuardClauses.UnitTests
             Assert.That(
                 () => Guard.AgainstNotDefined((Enumeration)Enum.ToObject(typeof(Enumeration), value), "param"),
                 Throws.TypeOf<ArgumentOutOfRangeException>().With.Property("ParamName").EqualTo("param")
-                    .And.Property("Message").StartsWith("Value " + value + " is not defined in the enumeration."));
+                    .And.Message.StartsWith("Value " + value + " is not defined in the enumeration."));
         }
 
         [Test]
