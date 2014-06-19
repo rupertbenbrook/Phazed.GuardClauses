@@ -32,5 +32,14 @@ namespace Phazed.GuardClauses
                 throw new ArgumentException("Value cannot be empty.", paramName);
             }
         }
+
+        public static void AgainstOutOfRange<T>(T value, T min, T max, string paramName) where T : IComparable
+        {
+            AgainstNull(value, paramName);
+            if ((value.CompareTo(min) < 0) || (value.CompareTo(max) > 0))
+            {
+                throw new ArgumentOutOfRangeException(paramName, "Value must be between " + min + " and " + max + ".");
+            }
+        }
     }
 }
