@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace Phazed.GuardClauses.UnitTests
@@ -36,7 +37,7 @@ namespace Phazed.GuardClauses.UnitTests
         public void AgainstEmpty_NullString_ThrowsArgumentException()
         {
             Assert.That(
-                () => Guard.AgainstEmpty(null, "param"),
+                () => Guard.AgainstEmpty((string)null, "param"),
                 Throws.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("param")
                     .And.Property("Message").StartsWith("Value cannot be null."));
         }
@@ -46,6 +47,32 @@ namespace Phazed.GuardClauses.UnitTests
         {
             Assert.That(
                 () => Guard.AgainstEmpty("notempty", "param"),
+                Throws.Nothing);
+        }
+
+        [Test]
+        public void AgainstEmpty_EmptyList_ThrowsArgumentException()
+        {
+            Assert.That(
+                () => Guard.AgainstEmpty(new List<string>(), "param"),
+                Throws.TypeOf<ArgumentException>().With.Property("ParamName").EqualTo("param")
+                    .And.Property("Message").StartsWith("Value cannot be empty."));
+        }
+
+        [Test]
+        public void AgainstEmpty_NullList_ThrowsArgumentNullException()
+        {
+            Assert.That(
+                () => Guard.AgainstEmpty((List<string>)null, "param"),
+                Throws.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("param")
+                    .And.Property("Message").StartsWith("Value cannot be null."));
+        }
+
+        [Test]
+        public void AgainstEmpty_NonEmptyList_DoesNotThrow()
+        {
+            Assert.That(
+                () => Guard.AgainstEmpty(new List<string> { "notempty" }, "param"),
                 Throws.Nothing);
         }
     }
