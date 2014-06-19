@@ -80,7 +80,13 @@ namespace Phazed.GuardClauses.UnitTests
         [TestCase(0, 1, 1)]
         [TestCase(1, 2, 2)]
         [TestCase(2, 0, 1)]
-        public void AgainstOutOfRange_Int_ThrowsArgumentOutOfRangeException(int value, int min, int max)
+        [TestCase(0d, 1d, 1d)]
+        [TestCase(1d, 2d, 2d)]
+        [TestCase(2d, 0d, 1d)]
+        [TestCase(0d, 0.000000000000000000000000000000000000000000000000000001d, 1d)]
+        [TestCase("a", "b", "c")]
+        [TestCase("a", "A", "B")]
+        public void AgainstOutOfRange_Comparable_ThrowsArgumentOutOfRangeException<T>(T value, T min, T max) where T : IComparable
         {
             Assert.That(
                 () => Guard.AgainstOutOfRange(value, min, max, "param"),
@@ -93,33 +99,14 @@ namespace Phazed.GuardClauses.UnitTests
         [TestCase(0, 0, 1)]
         [TestCase(2, 0, 2)]
         [TestCase(0, -1, 1)]
-        public void AgainstOutOfRange_Int_DoesNotThrow(int value, int min, int max)
-        {
-            Assert.That(
-                () => Guard.AgainstOutOfRange(value, min, max, "param"),
-                Throws.Nothing);
-        }
-
-        [Test]
-        [TestCase(0d, 1d, 1d)]
-        [TestCase(1d, 2d, 2d)]
-        [TestCase(2d, 0d, 1d)]
-        [TestCase(0d, 0.000000000000000000000000000000000000000000000000000001d, 1d)]
-        public void AgainstOutOfRange_Double_ThrowsArgumentOutOfRangeException(double value, double min, double max)
-        {
-            Assert.That(
-                () => Guard.AgainstOutOfRange(value, min, max, "param"),
-                Throws.TypeOf<ArgumentOutOfRangeException>().With.Property("ParamName").EqualTo("param")
-                    .And.Property("Message").StartsWith("Value must be between " + min + " and " + max + "."));
-        }
-
-        [Test]
         [TestCase(1d, 1d, 1d)]
         [TestCase(0d, 0d, 1d)]
         [TestCase(2d, 0d, 2d)]
         [TestCase(0d, -1d, 1d)]
         [TestCase(0.000000000000000000000000000000000000000000000000000001d, 0, 1d)]
-        public void AgainstOutOfRange_Double_DoesNotThrow(double value, double min, double max)
+        [TestCase("a", "a", "b")]
+        [TestCase("A", "A", "B")]
+        public void AgainstOutOfRange_Comparable_DoesNotThrow<T>(T value, T min, T max) where T : IComparable
         {
             Assert.That(
                 () => Guard.AgainstOutOfRange(value, min, max, "param"),
