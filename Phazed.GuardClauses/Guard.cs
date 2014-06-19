@@ -16,16 +16,16 @@ namespace Phazed.GuardClauses
         public static void AgainstEmpty(string value, string paramName)
         {
             AgainstNull(value, paramName);
-            CheckIfEmpty(value.Length, paramName);
+            ThrowIfEmpty(value.Length, paramName);
         }
 
         public static void AgainstEmpty(ICollection value, string paramName)
         {
             AgainstNull(value, paramName);
-            CheckIfEmpty(value.Count, paramName);
+            ThrowIfEmpty(value.Count, paramName);
         }
 
-        private static void CheckIfEmpty(int size, string paramName)
+        private static void ThrowIfEmpty(int size, string paramName)
         {
             if (size == 0)
             {
