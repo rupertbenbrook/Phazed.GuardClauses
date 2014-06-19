@@ -41,5 +41,14 @@ namespace Phazed.GuardClauses
                 throw new ArgumentOutOfRangeException(paramName, "Value must be between " + min + " and " + max + ".");
             }
         }
+
+        public static void AgainstNotDefined(Enum value, string paramName)
+        {
+            if (!Enum.IsDefined(value.GetType(), value))
+            {
+                throw new ArgumentOutOfRangeException(paramName,
+                    "Value " + value + " is not defined in the enumeration.");
+            }
+        }
     }
 }

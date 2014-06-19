@@ -7,6 +7,12 @@ namespace Phazed.GuardClauses.UnitTests
     [TestFixture]
     public class GuardTests
     {
+        public enum Enumeration
+        {
+            Zero = 0,
+            Ten = 10
+        }
+
         [Test]
         public void AgainstNull_Null_ThrowsArgumentNullException()
         {
@@ -120,6 +126,29 @@ namespace Phazed.GuardClauses.UnitTests
                 () => Guard.AgainstOutOfRange(null, "", "", "param"),
                 Throws.TypeOf<ArgumentNullException>().With.Property("ParamName").EqualTo("param")
                     .And.Property("Message").StartsWith("Value cannot be null."));
+        }
+
+        [Test]
+        [TestCase(-1)]
+        [TestCase(1)]
+        [TestCase(9)]
+        [TestCase(11)]
+        public void AgainstNotDefined_NotDefined_ThrowsArgumentOutOfRangeException(int value)
+        {
+            Assert.That(
+                () => Guard.AgainstNotDefined((Enumeration)Enum.ToObject(typeof(Enumeration), value), "param"),
+                Throws.TypeOf<ArgumentOutOfRangeException>().With.Property("ParamName").EqualTo("param")
+                    .And.Property("Message").StartsWith("Value " + value + " is not defined in the enumeration."));
+        }
+
+        [Test]
+        [TestCase(Enumeration.Zero)]
+        [TestCase(Enumeration.Ten)]
+        public void AgainstNotDefined_Defined_DoesNotThrow(int value)
+        {
+            Assert.That(
+                () => Guard.AgainstNotDefined((Enumeration)Enum.ToObject(typeof(Enumeration), value), "param"),
+                Throws.Nothing);
         }
     }
 }
