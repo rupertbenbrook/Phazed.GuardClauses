@@ -13,13 +13,13 @@ namespace Phazed.GuardClauses
             }
         }
 
-        public static void AgainstEmpty(string value, string paramName)
+        public static void AgainstNullOrEmpty(string value, string paramName)
         {
             AgainstNull(value, paramName);
             ThrowIfEmpty(value.Length, paramName);
         }
 
-        public static void AgainstEmpty(ICollection value, string paramName)
+        public static void AgainstNullOrEmpty(ICollection value, string paramName)
         {
             AgainstNull(value, paramName);
             ThrowIfEmpty(value.Count, paramName);
