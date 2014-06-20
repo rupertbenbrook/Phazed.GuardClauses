@@ -5,7 +5,6 @@ A simple project that implements guard clauses to validate the values of method 
 ArgumentException is they are not valid.
 
 Each gaurd clause follows the pattern:
-
 ```C#
 Guard.AgainstCondition(value, "paramName");
 ```
