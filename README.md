@@ -7,5 +7,5 @@ ArgumentException is they are not valid.
 Each gaurd clause follows the pattern:
 
 ```C#
-Guard.Against*XXXX*(*value*, "paramName");
+Guard.AgainstCondition(value, "paramName");
 ```
