@@ -1,6 +1,11 @@
 pool:
   name: Hosted Windows Container
 
+parameters:
+  BuildConfiguration: Release
+  Parameters.RestoreBuildProjects: Src/*.sln
+  Parameters.TestProjects: Src/*.UniTests/*.csproj
+
 steps:
 - task: DotNetCoreCLI@2
   displayName: Restore
