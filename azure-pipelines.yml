@@ -1,5 +1,3 @@
-name: $(System.TeamProjectName)
-
 workspace:
   clean: all
 
