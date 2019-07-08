@@ -1,32 +1,37 @@
-trigger:
-- master
-
 pool:
-  vmImage: 'ubuntu-latest'
+  name: Hosted Windows Container
 
 steps:
 - task: DotNetCoreCLI@2
-  displayName: 'NuGet Restore'
+  displayName: Restore
   inputs:
-    command: 'restore'
-    projects: 'Src/*.sln'
-    configuration: $(Build.Configuration)
-    feedsToUse: 'select'
+    command: restore
+    projects: '$(Parameters.RestoreBuildProjects)'
+    vstsFeed: '/ac13767d-b486-4390-b082-d419ab15867d'
+
 - task: DotNetCoreCLI@2
-  displayName: 'Build'
+  displayName: Build
   inputs:
-    command: 'build'
-    projects: 'Src/*.sln'
-    configuration: $(Build.Configuration)
+    projects: '$(Parameters.RestoreBuildProjects)'
+    arguments: '--configuration $(BuildConfiguration)'
+
 - task: DotNetCoreCLI@2
-  displayName: 'Unit Test'
+  displayName: Test
   inputs:
-    command: 'test'
-    projects: 'Src/*.sln'
-    configuration: $(Build.Configuration)
+    command: test
+    projects: '$(Parameters.TestProjects)'
+    arguments: '--configuration $(BuildConfiguration) --collect "Code coverage"'
+
+- task: DotNetCoreCLI@2
+  displayName: Package
+  inputs:
+    command: pack
+    includesymbols: true
+    includesource: true
+    versioningScheme: byBuildNumber
+
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Drop'
+  displayName: 'Publish Artifact'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
