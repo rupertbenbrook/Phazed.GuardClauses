@@ -6,19 +6,23 @@ pool:
 
 steps:
 - task: DotNetCoreCLI@2
+  displayName: 'NuGet Restore'
   inputs:
     command: 'restore'
     projects: 'Src/*.sln'
     feedsToUse: 'select'
 - task: DotNetCoreCLI@2
+  displayName: 'Build'
   inputs:
     command: 'build'
     projects: 'Src/*.sln'
 - task: DotNetCoreCLI@2
+  displayName: 'Unit Test'
   inputs:
-    command: 'run'
+    command: 'test'
     projects: 'Src/*.sln'
 - task: DotNetCoreCLI@2
+  displayName: 'Package'
   inputs:
     command: 'pack'
     packagesToPack: '**/*.csproj'
