@@ -1,3 +1,8 @@
+name: $(System.TeamProjectName)
+
+workspace:
+  clean: all
+
 pool:
   name: Hosted Windows Container
 
