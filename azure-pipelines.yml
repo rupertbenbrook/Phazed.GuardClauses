@@ -1,0 +1,37 @@
+pool:
+  name: Hosted Windows Container
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: '$(Parameters.RestoreBuildProjects)'
+    vstsFeed: '/ac13767d-b486-4390-b082-d419ab15867d'
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: '$(Parameters.RestoreBuildProjects)'
+    arguments: '--configuration $(BuildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: Test
+  inputs:
+    command: test
+    projects: '$(Parameters.TestProjects)'
+    arguments: '--configuration $(BuildConfiguration) --collect "Code coverage"'
+
+- task: DotNetCoreCLI@2
+  displayName: Package
+  inputs:
+    command: pack
+    includesymbols: true
+    includesource: true
+    versioningScheme: byBuildNumber
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
