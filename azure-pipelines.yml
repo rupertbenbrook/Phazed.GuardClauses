@@ -10,14 +10,23 @@ steps:
   inputs:
     command: 'restore'
     projects: 'Src/*.sln'
+    configuration: $(Build.Configuration)
     feedsToUse: 'select'
 - task: DotNetCoreCLI@2
   displayName: 'Build'
   inputs:
     command: 'build'
     projects: 'Src/*.sln'
+    configuration: $(Build.Configuration)
 - task: DotNetCoreCLI@2
   displayName: 'Unit Test'
   inputs:
     command: 'test'
     projects: 'Src/*.sln'
+    configuration: $(Build.Configuration)
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Drop'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
