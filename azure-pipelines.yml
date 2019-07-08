@@ -21,11 +21,3 @@ steps:
   inputs:
     command: 'test'
     projects: 'Src/*.sln'
-- task: DotNetCoreCLI@2
-  displayName: 'Package'
-  inputs:
-    command: 'pack'
-    packagesToPack: '**/*.csproj'
-    includesymbols: true
-    includesource: true
-    versioningScheme: 'byBuildNumber'
