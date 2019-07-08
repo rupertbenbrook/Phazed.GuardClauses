@@ -7,5 +7,21 @@ pool:
 steps:
 - task: DotNetCoreCLI@2
   inputs:
+    command: 'restore'
+    projects: 'Src/*.sln'
+    feedsToUse: 'select'
+- task: DotNetCoreCLI@2
+  inputs:
     command: 'build'
-    projects: 'Src/Phazed.GuardClauses.sln'
+    projects: 'Src/*.sln'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'run'
+    projects: 'Src/*.sln'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.csproj'
+    includesymbols: true
+    includesource: true
+    versioningScheme: 'byBuildNumber'
